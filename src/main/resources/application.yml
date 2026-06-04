@@ -2,5 +2,11 @@ spring:
   application:
     name: ${app.name}
 
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: org.postgresql.Driver
+
 server:
   port: ${app.port}
