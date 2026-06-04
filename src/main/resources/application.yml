@@ -1,3 +1,6 @@
+# Microservice: ms-account-reservation
+# Task: UPGGA-1 Create Application Skeleton
+
 spring:
   application:
     name: ${app.name}
