@@ -1,4 +1,4 @@
-package UPG.ms_account_reservation.entity;
+package UPG.msaccountreservation.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

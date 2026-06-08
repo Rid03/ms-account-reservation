@@ -1,6 +1,6 @@
-package UPG.ms_account_reservation.repository;
+package UPG.msaccountreservation.repository;
 
-import UPG.ms_account_reservation.entity.AccountStatus;
+import UPG.msaccountreservation.entity.AccountStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

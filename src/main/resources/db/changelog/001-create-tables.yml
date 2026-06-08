@@ -1,0 +1,142 @@
+databaseChangeLog:
+  - changeSet:
+        id: 0
+        author: "gor"
+        runAlways: true
+        changes:
+          - sql:
+              dbms: "postgresql"
+              sql: "CREATE SCHEMA IF NOT EXISTS public;"
+
+  - changeSet:
+      id: 1
+      author: "gor"
+      preConditions:
+        - onFail: "MARK_RAN"
+          not:
+            - tableExists:
+                tableName: "account_status"
+      changes:
+        - sql:
+            sql: "CREATE EXTENSION IF NOT EXISTS pgcrypto"
+        - createTable:
+            tableName: "account_status"
+            columns:
+              - column:
+                  name: "id"
+                  type: "bigint"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "varchar(255)"
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: "description"
+                  type: "varchar(255)"
+  - changeSet:
+      id: 2
+      author: "gor"
+      preConditions:
+        - onFail: "MARK_RAN"
+          not:
+            - tableExists:
+                tableName: "client"
+      changes:
+        - createTable:
+            tableName: "client"
+            columns:
+              - column:
+                  name: "id"
+                  type: "uuid"
+                  defaultValueComputed: "gen_random_uuid()"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "full_name"
+                  type: "varchar(255)"
+              - column:
+                  name: "citizenship"
+                  type: "varchar(255)"
+              - column:
+                  name: "client_type"
+                  type: "varchar(255)"
+              - column:
+                  name: "document_number"
+                  type: "varchar(255)"
+              - column:
+                  name: "document_series"
+                  type: "varchar(255)"
+              - column:
+                  name: "document_type"
+                  type: "varchar(255)"
+              - column:
+                  name: "mdm_code"
+                  type: "bigint"
+  - changeSet:
+      id: 3
+      author: "gor"
+      preConditions:
+        - onFail: "MARK_RAN"
+          not:
+            - tableExists:
+                tableName: "account"
+      changes:
+        - createTable:
+            tableName: "account"
+            columns:
+              - column:
+                  name: "id"
+                  type: "uuid"
+                  defaultValueComputed: "gen_random_uuid()"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "status_id"
+                  type: "bigint"
+                  constraints:
+                    nullable: false
+                    referencedTableName: "account_status"
+                    referencedColumnNames: "id"
+                    foreignKeyName: "fk_account_status"
+              - column:
+                  name: "client_id"
+                  type: "uuid"
+                  constraints:
+                    nullable: false
+                    referencedTableName: "client"
+                    referencedColumnNames: "id"
+                    foreignKeyName: "fk_account_client"
+              - column:
+                  name: "account_type"
+                  type: "varchar(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "currency_code"
+                  type: "varchar(3)"
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: "gor"
+      changes:
+        - sql:
+            dbms: "postgresql"
+            splitStatements: true
+            stripComments: true
+            sql: |
+              INSERT INTO account_status (name, description) VALUES
+              ('NEW', 'Счёт создан в БД'), 
+              ('IN_CREATION', 'Запрос на создание счёта был отправлен в смежную систему'),
+              ('CREATED', 'Счёт создан в смежной системе'),
+              ('CANCELLED', 'Счёт аннулирован'),
+              ('CLOSED', 'Счёт закрыт')
+              ON CONFLICT (name) DO UPDATE SET 
+              description = EXCLUDED.description;

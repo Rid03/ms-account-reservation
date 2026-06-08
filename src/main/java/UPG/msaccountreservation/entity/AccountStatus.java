@@ -1,4 +1,4 @@
-package UPG.ms_account_reservation.entity;
+package UPG.msaccountreservation.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,10 +14,13 @@ import lombok.Setter;
 @Setter
 @Table(name = "account_status")
 public class AccountStatus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, unique = true)
     private String name;
+
     private String description;
 }
