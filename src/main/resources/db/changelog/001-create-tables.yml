@@ -38,6 +38,7 @@ databaseChangeLog:
               - column:
                   name: "description"
                   type: "varchar(255)"
+
   - changeSet:
       id: 2
       author: "gor"
@@ -123,6 +124,7 @@ databaseChangeLog:
                   type: "varchar(3)"
                   constraints:
                     nullable: false
+
   - changeSet:
       id: 4
       author: "gor"
