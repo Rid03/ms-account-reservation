@@ -1,4 +1,4 @@
-package UPG.ms_account_reservation;
+package UPG.msaccountreservation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
