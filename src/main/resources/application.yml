@@ -21,3 +21,11 @@ spring:
 
 server:
   port: ${app.port}
+
+management:
+  server:
+    port: ${app.server.port}
+  endpoints:
+    web:
+      exposure:
+        include: health, info, threaddump
